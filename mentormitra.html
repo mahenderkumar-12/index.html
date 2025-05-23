@@ -1,0 +1,2433 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mentor Mitra - Connect with Experts</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom CSS for Inter font and general styling */
+        body {
+            font-family: 'Inter', sans-serif;
+            /* Directly set dark background for the body */
+            background-color: #1a202c; /* Dark background */
+            color: #e2e8f0; /* Light text */
+            transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition for dark mode */
+        }
+
+        /* Light mode styles - these are now effectively overridden for the body background */
+        html.light .bg-white { background-color: #ffffff; }
+        html.light .text-gray-800 { color: #1f2937; }
+        html.light .text-gray-900 { color: #111827; }
+        html.light .text-gray-600 { color: #4b5563; }
+        html.light .text-gray-700 { color: #374151; }
+        html.light .bg-gray-100 { background-color: #f3f4f6; }
+        html.light .border-gray-200 { border-color: #e5e7eb; }
+        html.light .border-gray-300 { border-color: #d1d5db; }
+        html.light .shadow-sm { box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); }
+        html.light .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
+        html.light .shadow-xl { box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); }
+        html.light .modal-content { background-color: #ffffff; }
+
+        /* Dark mode styles - these will now be the default for elements */
+        html.dark .bg-white { background-color: #2d3748; } /* Darker background for cards/header */
+        html.dark .text-gray-800 { color: #e2e8f0; }
+        html.dark .text-gray-900 { color: #f7fafc; }
+        /* Adjusted for better comfort on dark background */
+        html.dark .text-gray-600 { color: #cbd5e0; } /* Made brighter, same as text-gray-700 */
+        html.dark .text-gray-700 { color: #cbd5e0; }
+        html.dark .bg-gray-100 { background-color: #242b38; }
+        html.dark .border-gray-200 { border-color: #4a5568; }
+        html.dark .border-gray-300 { border-color: #4a5568; }
+        html.dark .shadow-sm { box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2); }
+        html.dark .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.1); }
+        html.dark .shadow-xl { box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.15); }
+        html.dark .modal-content { background-color: #2d3748; }
+        html.dark .close-button { color: #a0aec0; }
+        html.dark .close-button:hover, html.dark .close-button:focus { color: #cbd5e0; }
+        html.dark .bg-gray-800 { background-color: #1a202c; } /* Footer dark mode */
+        /* Adjusted for better comfort on dark background */
+        html.dark .text-gray-400 { color: #cbd5e0; } /* Made brighter, same as text-gray-700 */
+
+
+        /* Hide scrollbar for webkit browsers */
+        ::-webkit-scrollbar {
+            display: none;
+        }
+        /* Hide scrollbar for IE, Edge and Firefox */
+        body {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1000; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+            justify-content: center;
+            align-items: center;
+            opacity: 0; /* For fade-in animation */
+            transition: opacity 0.3s ease;
+        }
+        .modal.show {
+            opacity: 1;
+        }
+        .modal-content {
+            margin: auto;
+            padding: 1.5rem; /* Reduced from 2rem */
+            border-radius: 1rem;
+            width: 90%;
+            max-width: 600px;
+            position: relative;
+            transform: translateY(-20px); /* For slide-in animation */
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        .modal.show .modal-content {
+            transform: translateY(0);
+        }
+        .close-button {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+        .close-button:hover,
+        .close-button:focus {
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Animations for sections */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* Loading spinner */
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: #6366f1;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Mobile navigation overlay */
+        .mobile-nav-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 999;
+            display: flex;
+            justify-content: flex-end; /* Align menu to the right */
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .mobile-nav-overlay.open {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .mobile-nav-menu {
+            width: 70%; /* Adjust as needed */
+            max-width: 300px; /* Limit width */
+            background-color: #2d3748; /* Dark mode background */
+            padding: 2rem;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .mobile-nav-overlay.open .mobile-nav-menu {
+            transform: translateX(0);
+        }
+
+        .mobile-nav-menu a {
+            color: #f7fafc; /* Light text for links */
+            padding: 0.75rem 0;
+            font-size: 1.125rem; /* lg text */
+            font-weight: 500; /* medium */
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            transition: color 0.2s ease;
+        }
+
+        .mobile-nav-menu a:last-child {
+            border-bottom: none;
+        }
+
+        .mobile-nav-menu a:hover {
+            color: #63b3ed; /* Tailwind blue-300 hover */
+        }
+
+        /* Welcome Screen Specific Styles */
+        #welcome-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #1a202c; /* Dark background */
+            color: #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 1;
+            transition: opacity 0.5s ease-out;
+        }
+
+        #welcome-screen.hidden {
+            opacity: 0;
+            pointer-events: none; /* Disable interactions when hidden */
+        }
+
+        /* Keyframes for floating animation */
+        @keyframes floatLogoCap {
+            0% { transform: translate(0, 0); }
+            25% { transform: translate(2px, -2px); }
+            50% { transform: translate(-2px, 2px); }
+            75% { transform: translate(2px, 2px); }
+            100% { transform: translate(0, 0); }
+        }
+
+        /* Apply animation to the logo cap */
+        .logo-cap {
+            animation: floatLogoCap 4s ease-in-out infinite;
+            transform-origin: center center; /* Ensure consistent movement */
+        }
+
+        /* Profile Card Border and Hover Effects */
+        .profile-card {
+            border: 2px solid #4a5568; /* Default border color for dark mode */
+            transition: border-color 0.3s ease, transform 0.3s ease;
+            position: relative; /* Needed for absolute positioning of children */
+        }
+
+        html.light .profile-card {
+            border: 2px solid #e5e7eb; /* Default border color for light mode */
+        }
+
+        .profile-card:hover {
+            border-color: #6366f1; /* Blue border on hover */
+        }
+
+        /* Reviews Section Specific Styles */
+        .reviews-container {
+            display: flex;
+            overflow-x: auto; /* Enable horizontal scrolling */
+            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+            scroll-snap-type: x mandatory; /* Snap to cards */
+            padding-bottom: 1rem; /* Space for scrollbar if visible */
+            gap: 1.5rem; /* Space between cards */
+        }
+
+        .review-card {
+            flex: 0 0 auto; /* Do not grow, do not shrink, base size auto */
+            width: 90%; /* Adjust card width for mobile */
+            max-width: 320px; /* Max width for larger screens */
+            scroll-snap-align: start; /* Snap to the start of each card */
+            border: 2px solid #4a5568; /* Consistent border style */
+            border-radius: 2rem; /* More rounded corners for curved shape */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* More prominent shadow */
+            transition: border-color 0.3s ease, transform 0.3s ease, opacity 0.6s ease-out; /* Add opacity to transition */
+            opacity: 0; /* Initial state for animation */
+            transform: translateY(20px); /* Initial state for animation */
+        }
+
+        html.light .review-card {
+            border: 2px solid #e5e7eb;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .review-card:hover {
+            border-color: #6366f1;
+            transform: translateY(-5px); /* Slight lift on hover */
+        }
+
+        /* Class for horizontal slide-in animation */
+        .review-card.is-visible-horizontal {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Star rating styling */
+        .star-rating {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 0.5rem;
+        }
+        .star-rating svg {
+            color: #facc15; /* Yellow for filled stars */
+            margin: 0 1px;
+        }
+        .star-rating svg.empty {
+            color: #d1d5db; /* Gray for empty stars */
+        }
+
+        /* Back to Top Button */
+        #back-to-top-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: #6366f1; /* Blue */
+            color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 9999px; /* Fully rounded */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            cursor: pointer;
+            z-index: 900;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #back-to-top-btn.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <div id="welcome-screen" class="bg-gradient-to-br from-gray-900 to-blue-900">
+        <div class="text-center p-8">
+            <svg class="w-24 h-24 text-blue-400 mx-auto mb-6 animate-pulse" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path id="logo-cap" class="logo-cap" d="M12 2L2 7l10 5 10-5-10-5z"/>
+                <path d="M2 17l10 5 10-5-10-5-10 5zM12 14.72L4 10.72v-3.44l8 4 8-4v3.44l-8 4z"/>
+            </svg>
+            <h1 class="text-5xl md:text-6xl font-extrabold text-white mb-4">
+                 Welcome to <span class="text-blue-400">Mentor Mitra</span>
+            </h1>
+            <p class="text-3xl md:text-4xl text-gray-300 font-bold mb-8">
+                AMD GROUP
+            </p>
+            <button id="get-started-btn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-4 px-10 rounded-full shadow-lg text-lg transition duration-300 ease-in-out transform hover:scale-105">
+                Click here
+            </button>
+        </div>
+    </div>
+
+    <header id="main-header" class="bg-white shadow-sm py-4 px-6 md:px-8 flex flex-col sm:flex-row justify-between items-center sticky top-0 z-50 hidden">
+        <div class="flex items-center mb-4 sm:mb-0">
+            <svg class="w-8 h-8 text-blue-500 mr-2" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path id="header-logo-cap" class="logo-cap" d="M12 2L2 7l10 5 10-5-10-5z"/>
+                <path d="M2 17l10 5 10-5-10-5-10 5zM12 14.72L4 10.72v-3.44l8 4 8-4v3.44l-8 4z"/>
+            </svg>
+            <h1 class="text-2xl font-bold text-gray-800">Mentor Mitra</h1>
+        </div>
+        <nav class="flex items-center space-x-4">
+            <a href="#founder-profiles" class="text-gray-700 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400 font-medium transition duration-200 hidden md:block">Experts</a>
+            <a href="#how-it-works" class="text-gray-700 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400 font-medium transition duration-200 hidden md:block">How It Works</a>
+            <a href="#join-as-expert" class="text-gray-700 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400 font-medium transition duration-200 hidden md:block">Become an Expert</a>
+            <a href="#client-reviews" class="text-gray-700 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400 font-medium transition duration-200 hidden md:block">Reviews</a>
+
+            <a href="signup.html" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-xl shadow-lg transition duration-300 ease-in-out hidden md:block">
+                Sign Up
+            </a>
+            <a href="signup.html" class="bg-transparent border-2 border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white font-semibold py-3 px-8 rounded-xl shadow-lg transition duration-300 ease-in-out hidden md:block">
+                Log In
+            </a>
+
+            <button id="mobile-menu-button" class="md:hidden p-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </nav>
+    </header>
+
+    <div id="mobile-nav-overlay" class="mobile-nav-overlay">
+        <div class="mobile-nav-menu">
+            <button id="close-mobile-menu" class="self-end text-gray-300 hover:text-white mb-4">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+            <a href="#founder-profiles" class="mobile-nav-link">Experts</a>
+            <a href="#how-it-works" class="mobile-nav-link">How It Works</a>
+            <a href="#join-as-expert" class="mobile-nav-link">Become an Expert</a>
+            <a href="#client-reviews" class="mobile-nav-link">Reviews</a>
+            <div class="mt-8 flex flex-col space-y-4">
+                <a href="signup.html" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-xl shadow-lg transition duration-300 ease-in-out">
+                    Sign Up
+                </a>
+                <a href="signup.html" class="bg-transparent border-2 border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white font-semibold py-3 px-6 rounded-xl shadow-lg transition duration-300 ease-in-out">
+                    Log In
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+    <main id="main-content" class="flex-grow container mx-auto p-6 md:p-8 max-w-7xl hidden">
+        <section class="mb-10 text-center fade-in-section">
+            <h2 class="text-4xl font-extrabold text-gray-900 mb-4">Connect with Top Founders & Professionals</h2>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">Gain direct knowledge and personalized advice through paid video calls or chat sessions. Empower your journey with insights from those who've built it.</p>
+            <p class="text-lg text-blue-700 dark:text-blue-300 font-semibold mt-4">गुरु संवाद: ज्ञानम् मार्गदर्शयति</p>
+            <div class="flex flex-wrap justify-center gap-4 mt-8 mb-8">
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col items-center justify-center w-48 h-32 border border-gray-200 dark:border-gray-700">
+                    <p class="text-4xl font-bold text-blue-600 dark:text-blue-400">500+</p>
+                    <p class="text-lg text-gray-700 dark:text-gray-300 mt-2">Experts</p>
+                </div>
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col items-center justify-center w-48 h-32 border border-gray-200 dark:border-gray-700">
+                    <p class="text-4xl font-bold text-green-600 dark:text-green-400">10000+</p>
+                    <p class="text-lg text-gray-700 dark:text-gray-300 mt-2">Sessions</p>
+                </div>
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col items-center justify-center w-48 h-32 border border-gray-200 dark:border-gray-700">
+                    <p class="text-4xl font-bold text-purple-600 dark:text-purple-400">4.5</p>
+                    <p class="text-lg text-gray-700 dark:text-gray-300 mt-2">Avg. Rating</p>
+                </div>
+            </div>
+            </section>
+
+        <div class="mb-8 flex justify-center fade-in-section">
+            <input type="text" id="search-input" placeholder="Search by name, expertise, or industry..."
+                   class="w-full max-w-lg p-4 border-2 border-blue-300 rounded-xl shadow-md focus:outline-none focus:ring-4 focus:ring-blue-500 focus:border-blue-500 transition duration-300 ease-in-out bg-white dark:bg-gray-700 dark:border-blue-600 dark:text-white placeholder-gray-400 dark:placeholder-gray-300">
+        </div>
+
+        <div class="mb-12 flex flex-wrap justify-center gap-3 fade-in-section">
+            <button class="filter-button bg-blue-500 text-white text-sm font-semibold px-4 py-2 rounded-full shadow-sm hover:bg-blue-600 transition duration-200 active-filter" data-filter="All">
+                All
+            </button>
+            <button class="filter-button bg-blue-100 text-blue-800 text-sm font-semibold px-4 py-2 rounded-full shadow-sm hover:bg-blue-200 transition duration-200 dark:bg-blue-700 dark:text-blue-100 dark:hover:bg-blue-600" data-filter="Startup">
+                Startup
+            </button>
+            <button class="filter-button bg-blue-100 text-blue-800 text-sm font-semibold px-4 py-2 rounded-full shadow-sm hover:bg-blue-200 transition duration-200 dark:bg-blue-700 dark:text-blue-100 dark:hover:bg-blue-600" data-filter="Marketing">
+                Marketing
+            </button>
+            <button class="filter-button bg-blue-100 text-blue-800 text-sm font-semibold px-4 py-2 rounded-full shadow-sm hover:bg-blue-200 transition duration-200 dark:bg-blue-700 dark:text-blue-100 dark:hover:bg-blue-600" data-filter="Coding">
+                Coding
+            </button>
+            <button class="filter-button bg-blue-100 text-blue-800 text-sm font-semibold px-4 py-2 rounded-full shadow-sm hover:bg-blue-200 transition duration-200 dark:bg-blue-700 dark:text-blue-100 dark:hover:bg-blue-600" data-filter="B2B">
+                B2B
+            </button>
+            <button class="filter-button bg-blue-100 text-blue-800 text-sm font-semibold px-4 py-2 rounded-full shadow-sm hover:bg-blue-200 transition duration-200 dark:bg-blue-700 dark:text-blue-100 dark:hover:bg-blue-600" data-filter="FinTech">
+                FinTech
+            </button>
+        </div>
+
+        <section id="founder-profiles" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-16 fade-in-section">
+            </section>
+
+        <div class="text-center mt-8 mb-16 fade-in-section" id="show-more-container">
+            <button id="show-more-btn" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-8 rounded-lg shadow-md transition duration-300 ease-in-out">
+                Show More Profiles
+            </button>
+        </div>
+
+        <section id="how-it-works" class="mb-16 text-center fade-in-section">
+            <h2 class="text-3xl font-bold text-gray-900 mb-8">How Mentor Mitra Works</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white rounded-xl shadow-lg p-6 flex flex-col items-center text-center border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+                    <div class="bg-blue-100 text-blue-600 rounded-full p-4 mb-4 dark:bg-blue-700 dark:text-blue-100">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.394 1.258M9.292 7.35l1.258-.394M11.309 15.602l.394 1.258M16.401 17.653l1.258-.394M21.732 12.268l-1.258-.394M3.393 15.602l-.394 1.258M.268 12.268l1.258-.394"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">1. Explore Profiles</h3>
+                    <p class="text-gray-600 leading-relaxed">Browse a curated list of verified founders and professionals by expertise, industry, or pricing details.</p>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg p-6 flex flex-col items-center text-center border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+                    <div class="bg-green-100 text-green-600 rounded-full p-4 mb-4 dark:bg-green-700 dark:text-green-100">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">2. Book & Pay Securely</h3>
+                    <p class="text-gray-600 leading-relaxed">Choose a video call or chat session, select your preferred time, and complete a secure payment.</p>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg p-6 flex flex-col items-center text-center border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+                    <div class="bg-blue-100 text-blue-600 rounded-full p-4 mb-4 dark:bg-blue-700 dark:text-blue-100">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0 0h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">3. Connect Live</h3>
+                    <p class="text-gray-600 leading-relaxed">Access your live video call or chat session directly through the platform at your scheduled time.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="join-as-expert" class="bg-blue-700 text-white rounded-xl shadow-xl p-8 md:p-12 text-center mb-16 fade-in-section">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4">Are you an experienced Founder or Professional?</h2>
+            <p class="text-lg md:text-xl mb-8 max-w-3xl mx-auto leading-relaxed">Share your knowledge, mentor the next generation, and create a new revenue stream. Join our growing network of verified experts.</p>
+            <button class="bg-white text-blue-700 hover:bg-gray-100 font-semibold py-3 px-8 rounded-lg shadow-md transition duration-300 ease-in-out text-lg">
+                Become an Expert
+            </button>
+        </section>
+
+        <section id="client-reviews" class="mb-16 fade-in-section">
+            <h2 class="text-3xl font-bold text-gray-900 text-center mb-8">What Our Clients Say</h2>
+            <div class="reviews-container">
+                </div>
+        </section>
+
+    </main>
+
+    <div id="profile-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal()">×</span>
+            <div class="flex flex-col md:flex-row items-center md:items-start mb-6">
+                <img id="modal-avatar" src="" alt="Founder Avatar" class="w-16 h-16 rounded-full object-cover mb-4 md:mb-0 md:mr-4 shadow-md" onerror="this.onerror=null;this.src='https://placehold.co/120x120/cccccc/333333?text=N/A';"> <div class="text-center md:text-left">
+                    <h3 id="modal-name" class="text-xl font-bold text-gray-900 mb-2"></h3> <p id="modal-expertise" class="text-sm text-blue-600 font-medium mb-2"></p> <p id="modal-bio" class="text-sm text-gray-700 text-base leading-relaxed"></p>
+                </div>
+            </div>
+            <div class="border-t border-gray-200 pt-6 mt-6">
+                <h4 class="text-xl font-semibold text-gray-800 mb-4">Connect with <span id="modal-connect-name"></span></h4>
+                <div class="flex flex-col sm:flex-row gap-4 mb-4">
+                    <div class="flex-1 flex flex-col">
+                        <button id="video-call-btn" class="bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out flex items-center justify-center">
+                            <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                            Video Call
+                        </button>
+                        <select id="video-duration-select" class="mt-2 p-2 rounded-md border border-gray-500 bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </select>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Price: ₹<span id="modal-video-price"></span></p>
+                    </div>
+                    <div class="flex-1 flex flex-col">
+                        <button id="chat-session-btn" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out flex items-center justify-center">
+                            <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
+                            Chat Session
+                        </button>
+                        <select id="chat-duration-select" class="mt-2 p-2 rounded-md border border-gray-500 bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </select>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Price: ₹<span id="modal-chat-price"></span></p>
+                    </div>
+                </div>
+                <div class="flex-1 flex flex-col">
+                    <button id="face-to-face-btn" class="bg-purple-500 hover:bg-purple-600 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out flex items-center justify-center">
+                        <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                        Face to Face
+                    </button>
+                    <select id="face-to-face-duration-select" class="mt-2 p-2 rounded-md border border-gray-500 bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </select>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Price: ₹<span id="modal-face-to-face-price"></span></p>
+                </div>
+
+                <div id="modal-video-embed-container" class="mt-4 mb-4 w-full aspect-video"></div>
+
+                <button id="suggest-questions-btn" class="w-full bg-purple-500 hover:bg-purple-600 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out flex items-center justify-center mt-4">
+                    <span id="suggest-questions-spinner" class="hidden spinner"></span>
+                    ✨ Suggest Questions
+                </button>
+                <button id="draft-intro-btn" class="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out flex items-center justify-center mt-4">
+                    <span id="draft-intro-spinner" class="hidden spinner"></span>
+                    ✨ Draft an Introduction
+                </button>
+                <div id="suggested-questions-area" class="mt-4 p-4 bg-gray-100 rounded-lg text-gray-700 dark:bg-gray-700 dark:text-gray-200 hidden">
+                    <p class="font-semibold mb-2">Suggested Questions:</p>
+                    <ul id="questions-list" class="list-disc list-inside text-left space-y-1"></ul>
+                </div>
+                <div id="drafted-intro-area" class="mt-4 p-4 bg-gray-100 rounded-lg text-gray-700 dark:bg-gray-700 dark:text-gray-200 hidden">
+                    <p class="font-semibold mb-2">Drafted Introduction:</p>
+                    <p id="intro-text"></p>
+                </div>
+            </div>
+            <div id="message-area" class="mt-6 p-4 bg-gray-100 rounded-lg text-gray-700 text-center hidden">
+                <p id="transaction-message" class="font-semibold mb-2"></p>
+                <p id="interaction-message"></p>
+            </div>
+        </div>
+    </div>
+
+    <footer id="main-footer" class="bg-gray-800 text-white py-10 px-8 mt-10 bg-gradient-to-r from-gray-700 to-gray-900 hidden">
+        <div class="container mx-auto flex flex-col md:flex-row justify-between items-center md:items-start space-y-8 md:space-y-0">
+            <div class="text-center md:text-left">
+                <p class="mb-2">© 2025 Mentor Mitra. All rights reserved.</p>
+                <p class="text-gray-400 text-sm"><span id="footer-animated-text"></span></p>
+            </div>
+
+            <div class="flex flex-col items-center md:items-start space-y-4">
+                <h4 class="text-lg font-semibold">Stay Updated</h4>
+                <p class="text-gray-400 text-sm">Subscribe to our newsletter for the latest insights.</p>
+                <div class="flex flex-col sm:flex-row gap-2 w-full max-w-sm">
+                    <input type="email" id="newsletter-email" placeholder="Your email address"
+                           class="flex-grow p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400">
+                    <button id="subscribe-btn" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 ease-in-out">
+                        Subscribe
+                    </button>
+                </div>
+                <p id="newsletter-message" class="text-sm text-green-400 hidden mt-2"></p>
+            </div>
+
+            <div class="flex flex-col md:flex-row md:space-x-8 space-y-4 md:space-y-0 text-center md:text-left">
+                <div class="flex flex-col space-y-2">
+                    <a href="#" class="text-gray-400 hover:text-white transition duration-300">Privacy Policy</a>
+                    <a href="#" class="text-gray-400 hover:text-white transition duration-300">Terms of Service</a>
+                </div>
+                <div class="flex flex-col space-y-2">
+                    <a href="https://www.instagram.com/___mahender____96" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition duration-300 flex items-center justify-center md:justify-start">
+                        <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4c0 3.2-2.6 5.8-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8C2 4.6 4.6 2 7.8 2zm-.2 2A5.6 5.6 0 004 7.6v8.8A5.6 5.6 0 007.6 20h8.8a5.6 5.6 0 003.6-3.6V7.6A5.6 5.6 0 0016.4 4H7.6zm9.6 1.8c-.8 0-1.4.6-1.4 1.4s.6 1.4 1.4 1.4 1.4-.6 1.4-1.4-.6-1.4-1.4-1.4zM12 9a6 6 0 100 12 6 6 0 000-12zm0 2a4 4 0 110 8 4 4 0 010-8z"/>
+                        </svg>
+                        Instagram
+                    </a>
+                    <a href="https://youtube.com/@top1story198?si=SZAjkltLxIGtNptr" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition duration-300 flex items-center justify-center md:justify-start">
+                        <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-4 15.5v-11L17 12l-9 5.5z"/>
+                        </svg>
+                        YouTube
+                    </a>
+                    <a href="https://mahenderblogger.blogspot.com/2025/05/blog-post_19.html" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition duration-300 flex items-center justify-center md:justify-start">
+                        <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M19 4H5c-1.11 0-2 .9-2 2v12c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V6c0-1.1-.89-2-2-2zm-1 14H6c-.55 0-1-.45-1-1V7c0-.55.45-1 1-1h12c.55 0 1 .45 1 1v10c0 .55-.45 1-1 1zm-7-4h2v-2h-2v2zm0-4h2V8h-2v2z"/>
+                        </svg>
+                        Blog
+                    </a>
+                    <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition duration-300 flex items-center justify-center md:justify-start">
+                        <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.37-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.25 5.4 7.72 3.53 5.11c-.36.62-.56 1.35-.56 2.15 0 1.49.75 2.81 1.91 3.56-.7-.02-1.36-.2-1.93-.5v.03c0 2.08 1.48 3.82 3.44 4.21-.36.1-.73.15-1.1.15-.27 0-.53-.03-.79-.07.55 1.71 2.14 2.95 4.03 2.98-1.48 1.16-3.35 1.85-5.38 1.85-.35 0-.69-.02-1.03-.06C4.4 19.34 6.6 20 8.98 20c7.2 0 11.15-5.96 11.15-11.15 0-.17-.01-.34-.01-.51.77-.55 1.44-1.23 1.97-2.01z"/>
+                        </svg>
+                        Twitter
+                    </a>
+                    <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition duration-300 flex items-center justify-center md:justify-start">
+                        <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M20.447 20.452h-3.554v-5.564c0-1.328-.027-3.044-1.852-3.044-1.853 0-2.136 1.445-2.136 2.951v5.657H9.289V9.295h3.416v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.467v6.253zM7.901 6.004c-.957 0-1.734-.777-1.734-1.734 0-.957.777-1.734 1.734-1.734s1.734.777 1.734 1.734c0 .957-.777 1.734-1.734 1.734zm3.586 14.448H4.348V9.295h3.553v11.157z"/>
+                        </svg>
+                        LinkedIn
+                    </a>
+                    <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition duration-300 flex items-center justify-center md:justify-start">
+                        <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.776-3.89 1.094 0 2.24.195 2.24.195v2.453H15.83c-1.22 0-1.628.755-1.628 1.54V12h2.77l-.44 2.891h-2.33V22C18.343 21.128 22 16.991 22 12z"/>
+                        </svg>
+                        Facebook
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <button id="back-to-top-btn" class="hidden">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+        </svg>
+    </button>
+
+    <script>
+        // Sample Founder Data
+        const founders = [
+            {
+                id: 'founder1',
+                name: 'Aisha Sharma',
+                bio: 'Founder of "InnovateHub," a successful SaaS platform for project management. 10+ years in tech entrepreneurship. Passionate about product-market fit and scaling.',
+                expertise: 'SaaS, Product Management, Scaling Startups',
+                yearsExperience: '10+ years',
+                city: 'Bengaluru',
+                keySkills: ['SaaS Platform', 'Project Management', 'Product-Market Fit', 'Scaling Startups'],
+                contactModes: {
+                    video: {
+                        basePrice: 500, // Price for base duration
+                        baseDurationMin: 10, // Base duration in minutes
+                        pricePerExtraMin: 50, // Price per minute for extended duration
+                        availableDurations: [10, 20, 30, 45, 60] // Available options in minutes
+                    },
+                    chat: {
+                        basePrice: 400,
+                        baseDurationMin: 10,
+                        pricePerExtraMin: 40,
+                        availableDurations: [10, 20, 30, 45, 60]
+                    },
+                    faceToFace: {
+                        basePrice: 1000, // Price for base duration
+                        baseDurationMin: 60, // Base duration in minutes (1 hour)
+                        pricePerExtraMin: 100, // Price per minute for extended duration
+                        availableDurations: [60, 90, 120, 180] // Available options in minutes (1hr, 1.5hr, 2hr, 3hr)
+                    }
+                },
+                avatar: 'https://picsum.photos/id/1027/120/120', // Woman
+                youtubeVideoId: '20' // Updated YouTube video ID
+            },
+            {
+                id: 'founder2',
+                name: 'Rajesh Kumar',
+                bio: 'Serial entrepreneur and angel investor. Built and exited two e-commerce ventures. Specializes in digital marketing, fundraising, and market entry strategies.',
+                expertise: 'E-commerce, Digital Marketing, Fundraising',
+                yearsExperience: '15+ years',
+                city: 'Mumbai',
+                keySkills: ['E-commerce', 'Digital Marketing', 'Fundraising', 'Market Entry'],
+                contactModes: {
+                    video: {
+                        basePrice: 600,
+                        baseDurationMin: 10,
+                        pricePerExtraMin: 60,
+                        availableDurations: [10, 20, 30, 45, 60]
+                    },
+                    chat: {
+                        basePrice: 450,
+                        baseDurationMin: 10,
+                        pricePerExtraMin: 45,
+                        availableDurations: [10, 20, 30, 45, 60]
+                    },
+                    faceToFace: {
+                        basePrice: 1500,
+                        baseDurationMin: 60,
+                        pricePerExtraMin: 150,
+                        availableDurations: [60, 90, 120, 180]
+                    }
+                },
+                avatar: 'https://picsum.photos/id/1025/120/120', // Man
+                youtubeVideoId: 'o-YBDTqX_Wg' // Charlie bit my finger - again !
+            },
+            {
+                id: 'founder3',
+                name: 'Priya Singh',
+                bio: 'CEO of "HealthBridge," a health tech startup. Expertise in B2B sales, regulatory compliance, and building strong remote teams. Forbes 30 Under 30 honoree.',
+                expertise: 'HealthTech, B2B Sales, Remote Teams',
+                yearsExperience: '8+ years',
+                city: 'Delhi',
+                keySkills: ['B2B Sales', 'Regulatory Compliance', 'Remote Team Building'],
+                contactModes: {
+                    video: {
+                        basePrice: 550,
+                        baseDurationMin: 10,
+                        pricePerExtraMin: 55,
+                        availableDurations: [10, 20, 30, 45, 60]
+                    },
+                    chat: {
+                        basePrice: 420,
+                        baseDurationMin: 10,
+                        pricePerExtraMin: 42,
+                        availableDurations: [10, 20, 30, 45, 60]
+                    },
+                    faceToFace: {
+                        basePrice: 1200,
+                        baseDurationMin: 60,
+                        pricePerExtraMin: 120,
+                        availableDurations: [60, 90, 120, 180]
+                    }
+                },
+                avatar: 'https://picsum.photos/id/1011/120/120', // Woman
+                youtubeVideoId: '_OemNp6FgLE' // Evolution of Dance
+            },
+            {
+                id: 'founder4',
+                name: 'David Lee',
+                bio: 'Co-founder of a successful FinTech startup. Deep knowledge in blockchain, financial modeling, and securing early-stage funding. Mentor at various accelerators.',
+                expertise: 'FinTech, Blockchain, Financial Modeling',
+                yearsExperience: '12+ years',
+                city: 'New York',
+                keySkills: ['Blockchain', 'Financial Modeling', 'Early-stage Funding'],
+                contactModes: {
+                    video: {
+                        basePrice: 650,
+                        baseDurationMin: 10,
+                        pricePerExtraMin: 65,
+                        availableDurations: [10, 20, 30, 45, 60]
+                    },
+                    chat: {
+                        basePrice: 500,
+                        baseDurationMin: 10,
+                        pricePerExtraMin: 50,
+                        availableDurations: [10, 20, 30, 45, 60]
+                    },
+                    faceToFace: {
+                        basePrice: 1800,
+                        baseDurationMin: 60,
+                        pricePerExtraMin: 180,
+                        availableDurations: [60, 90, 120, 180]
+                    }
+                },
+                avatar: 'https://picsum.photos/id/1012/120/120', // Man
+                youtubeVideoId: 'kfVsfFXzF2Q' // Gangnam Style
+            },
+            {
+                id: 'founder5',
+                name: 'Sophie Chen',
+                bio: 'Design lead turned founder of "CreativityFlow," a popular design tool. Specializes in UI/UX, user-centric design, and building engaging communities.',
+                expertise: 'UI/UX Design, Community Building, SaaS',
+                yearsExperience: '9+ years',
+                city: 'San Francisco',
+                keySkills: ['UI/UX Design', 'User-Centric Design', 'Community Building'],
+                contactModes: {
+                    video: {
+                        basePrice: 520,
+                        baseDurationMin: 10,
+                        pricePerExtraMin: 52,
+                        availableDurations: [10, 20, 30, 45, 60]
+                    },
+                    chat: {
+                        basePrice: 380,
+                        baseDurationMin: 10,
+                        pricePerExtraMin: 38,
+                        availableDurations: [10, 20, 30, 45, 60]
+                    },
+                    faceToFace: {
+                        basePrice: 1100,
+                        baseDurationMin: 60,
+                        pricePerExtraMin: 110,
+                        availableDurations: [60, 90, 120, 180]
+                    }
+                },
+                avatar: 'https://picsum.photos/id/1005/120/120', // Woman
+                youtubeVideoId: 'C-u5WLJ9Yk4' // Baby Shark Dance
+            },
+            {
+                id: 'founder6',
+                name: 'Ananya Gupta',
+                bio: 'Founder of "GreenHarvest," an AgriTech startup. Expertise in sustainable farming practices, supply chain optimization, and impact investing.',
+                expertise: 'AgriTech, Supply Chain, Impact Investing',
+                yearsExperience: '7+ years',
+                city: 'Pune',
+                keySkills: ['Sustainable Farming', 'Supply Chain Optimization', 'Impact Investing'],
+                contactModes: {
+                    video: {
+                        basePrice: 580,
+                        baseDurationMin: 10,
+                        pricePerExtraMin: 58,
+                        availableDurations: [10, 20, 30, 45, 60]
+                    },
+                    chat: {
+                        basePrice: 430,
+                        baseDurationMin: 10,
+                        pricePerExtraMin: 43,
+                        availableDurations: [10, 20, 30, 45, 60]
+                    },
+                    faceToFace: {
+                        basePrice: 1300,
+                        baseDurationMin: 60,
+                        pricePerExtraMin: 130,
+                        availableDurations: [60, 90, 120, 180]
+                    }
+                },
+                avatar: 'https://picsum.photos/id/1004/120/120', // Woman
+                youtubeVideoId: 'kYtJ0m-hN-w' // Despacito
+            },
+            {
+                id: 'founder7',
+                name: 'Mark Johnson',
+                bio: 'Former VP of Engineering at a major tech company, now advising startups on product development, team scaling, and technical architecture.',
+                expertise: 'Engineering Leadership, Product Development, Scaling Teams',
+                yearsExperience: '20+ years',
+                city: 'Seattle',
+                keySkills: ['Product Development', 'Team Scaling', 'Technical Architecture'],
+                contactModes: {
+                    video: {
+                        basePrice: 700,
+                        baseDurationMin: 10,
+                        pricePerExtraMin: 70,
+                        availableDurations: [10, 20, 30, 45, 60]
+                    },
+                    chat: {
+                        basePrice: 550,
+                        baseDurationMin: 10,
+                        pricePerExtraMin: 55,
+                        availableDurations: [10, 20, 30, 45, 60]
+                    },
+                    faceToFace: {
+                        basePrice: 2000,
+                        baseDurationMin: 60,
+                        pricePerExtraMin: 200,
+                        availableDurations: [60, 90, 120, 180]
+                    }
+                },
+                avatar: 'https://picsum.photos/id/1009/120/120', // Man
+                youtubeVideoId: 'JGwWNGJdvx8' // See You Again
+            },
+            {
+                id: 'founder8',
+                name: 'Lena Petrova',
+                bio: 'Marketing guru who built several brands from scratch. Specializes in content strategy, Growth Hacking, and community engagement for D2C businesses.',
+                expertise: 'Content Strategy, Growth Hacking, D2C Marketing',
+                yearsExperience: '10+ years',
+                city: 'London',
+                keySkills: ['Content Strategy', 'Growth Hacking', 'Community Engagement', 'D2C Business'],
+                contactModes: {
+                    video: {
+                        basePrice: 620,
+                        baseDurationMin: 10,
+                        pricePerExtraMin: 62,
+                        availableDurations: [10, 20, 30, 45, 60]
+                    },
+                    chat: {
+                        basePrice: 480,
+                        baseDurationMin: 10,
+                        pricePerExtraMin: 48,
+                        availableDurations: [10, 20, 30, 45, 60]
+                    },
+                    faceToFace: {
+                        basePrice: 1600,
+                        baseDurationMin: 60,
+                        pricePerExtraMin: 160,
+                        availableDurations: [60, 90, 120, 180]
+                    }
+                },
+                avatar: 'https://picsum.photos/id/1003/120/120', // Woman
+                youtubeVideoId: 'OPf0YbXqDm0' // Shape of You
+            },
+            {
+                id: 'founder9',
+                name: 'Omar Hassan',
+                bio: 'Specialist in AI/ML applications for healthcare. Built predictive analytics models and integrated AI solutions in clinical settings.',
+                expertise: 'AI/ML, Healthcare Tech, Data Science',
+                yearsExperience: '14+ years',
+                city: 'Dubai',
+                keySkills: ['Predictive Analytics', 'AI Solutions', 'Clinical Settings'],
+                contactModes: {
+                    video: {
+                        basePrice: 750,
+                        baseDurationMin: 10,
+                        pricePerExtraMin: 75,
+                        availableDurations: [10, 20, 30, 45, 60]
+                    },
+                    chat: {
+                        basePrice: 600,
+                        baseDurationMin: 10,
+                        pricePerExtraMin: 60,
+                        availableDurations: [10, 20, 30, 45, 60]
+                    },
+                    faceToFace: {
+                        basePrice: 2500,
+                        baseDurationMin: 60,
+                        pricePerExtraMin: 250,
+                        availableDurations: [60, 90, 120, 180]
+                    }
+                },
+                avatar: 'https://picsum.photos/id/1002/120/120', // Man
+                youtubeVideoId: 'kJQP7kiw5Fk' // Uptown Funk
+            },
+            {
+                id: 'founder10',
+                name: 'Jessica Kim',
+                bio: 'Experienced in consumer goods and brand development. Successfully launched multiple product lines and managed large-scale marketing campaigns.',
+                expertise: 'Consumer Goods, Brand Development, Marketing',
+                yearsExperience: '11+ years',
+                city: 'Seoul',
+                keySkills: ['Brand Development', 'Product Launches', 'Marketing Campaigns'],
+                contactModes: {
+                    video: {
+                        basePrice: 580,
+                        baseDurationMin: 10,
+                        pricePerExtraMin: 58,
+                        availableDurations: [10, 20, 30, 45, 60]
+                    },
+                    chat: {
+                        basePrice: 450,
+                        baseDurationMin: 10,
+                        pricePerExtraMin: 45,
+                        availableDurations: [10, 20, 30, 45, 60]
+                    },
+                    faceToFace: {
+                        basePrice: 1400,
+                        baseDurationMin: 60,
+                        pricePerExtraMin: 140,
+                        availableDurations: [60, 90, 120, 180]
+                    }
+                },
+                avatar: 'https://picsum.photos/id/1001/120/120', // Woman
+                youtubeVideoId: 'nfWlot6h_JM' // Faded
+            },
+            // Existing profiles continued
+            {
+                id: 'founder11',
+                name: 'Vikram Reddy',
+                bio: 'Founder of "EduSpark," an EdTech platform. Expertise in online learning, curriculum development, and user engagement strategies.',
+                expertise: 'EdTech, Education, User Engagement',
+                yearsExperience: '9+ years',
+                city: 'Hyderabad',
+                keySkills: ['Online Learning', 'Curriculum Development', 'User Engagement'],
+                contactModes: {
+                    video: {
+                        basePrice: 530,
+                        baseDurationMin: 10,
+                        pricePerExtraMin: 53,
+                        availableDurations: [10, 20, 30, 45, 60]
+                    },
+                    chat: {
+                        basePrice: 400,
+                        baseDurationMin: 10,
+                        pricePerExtraMin: 40,
+                        availableDurations: [10, 20, 30, 45, 60]
+                    },
+                    faceToFace: {
+                        basePrice: 1150,
+                        baseDurationMin: 60,
+                        pricePerExtraMin: 115,
+                        availableDurations: [60, 90, 120, 180]
+                    }
+                },
+                avatar: 'https://picsum.photos/id/1006/120/120', // Man
+                youtubeVideoId: 'LXb3EKWsInQ' // Random video
+            },
+            {
+                id: 'founder12',
+                name: 'Sarah Miller',
+                bio: 'Veteran in cybersecurity and data privacy. Advises startups on secure architecture, compliance, and threat mitigation.',
+                expertise: 'Cybersecurity, Data Privacy, IT Security',
+                yearsExperience: '18+ years',
+                city: 'Washington D.C.',
+                keySkills: ['Secure Architecture', 'Compliance', 'Threat Mitigation'],
+                contactModes: {
+                    video: {
+                        basePrice: 720,
+                        baseDurationMin: 10,
+                        pricePerExtraMin: 72,
+                        availableDurations: [10, 20, 30, 45, 60]
+                    },
+                    chat: {
+                        basePrice: 580,
+                        baseDurationMin: 10,
+                        pricePerExtraMin: 58,
+                        availableDurations: [10, 20, 30, 45, 60]
+                    },
+                    faceToFace: {
+                        basePrice: 2200,
+                        baseDurationMin: 60,
+                        pricePerExtraMin: 220,
+                        availableDurations: [60, 90, 120, 180]
+                    }
+                },
+                avatar: 'https://picsum.photos/id/1008/120/120', // Woman
+                youtubeVideoId: 'k_9G_C3z-Xg' // Random video
+            },
+            {
+                id: 'founder13',
+                name: 'Chen Wei',
+                bio: 'Expert in supply chain logistics and manufacturing optimization. Helped numerous companies streamline operations and reduce costs.',
+                expertise: 'Supply Chain, Logistics, Manufacturing',
+                yearsExperience: '16+ years',
+                city: 'Shanghai',
+                keySkills: ['Logistics', 'Manufacturing Optimization', 'Cost Reduction'],
+                contactModes: {
+                    video: {
+                        basePrice: 680,
+                        baseDurationMin: 10,
+                        pricePerExtraMin: 68,
+                        availableDurations: [10, 20, 30, 45, 60]
+                    },
+                    chat: {
+                        basePrice: 520,
+                        baseDurationMin: 10,
+                        pricePerExtraMin: 52,
+                        availableDurations: [10, 20, 30, 45, 60]
+                    },
+                    faceToFace: {
+                        basePrice: 1900,
+                        baseDurationMin: 60,
+                        pricePerExtraMin: 190,
+                        availableDurations: [60, 90, 120, 180]
+                    }
+                },
+                avatar: 'https://picsum.photos/id/1015/120/120', // Man
+                youtubeVideoId: 'dQw4w9WgXcQ' // Rick Astley - Never Gonna Give You Up
+            },
+            {
+                id: 'founder14',
+                name: 'Fatima Zahra',
+                bio: 'Social impact entrepreneur focusing on sustainable development goals. Experienced in non-profit management and community building.',
+                expertise: 'Social Impact, Non-Profit, Community Development',
+                yearsExperience: '6+ years',
+                city: 'Casablanca',
+                keySkills: ['Non-Profit Management', 'Community Building', 'Sustainable Development'],
+                contactModes: {
+                    video: {
+                        basePrice: 480,
+                        baseDurationMin: 10,
+                        pricePerExtraMin: 48,
+                        availableDurations: [10, 20, 30, 45, 60]
+                    },
+                    chat: {
+                        basePrice: 350,
+                        baseDurationMin: 10,
+                        pricePerExtraMin: 35,
+                        availableDurations: [10, 20, 30, 45, 60]
+                    },
+                    faceToFace: {
+                        basePrice: 900,
+                        baseDurationMin: 60,
+                        pricePerExtraMin: 90,
+                        availableDurations: [60, 90, 120, 180]
+                    }
+                },
+                avatar: 'https://picsum.photos/id/1018/120/120', // Woman
+                youtubeVideoId: 'o-YBDTqX_Wg' // Charlie bit my finger - again !
+            },
+            {
+                id: 'founder15',
+                name: 'Alex Rodriguez',
+                bio: 'Growth hacker with a proven track record in user acquisition and conversion rate optimization for mobile apps.',
+                expertise: 'Growth Hacking, Mobile Apps, User Acquisition',
+                yearsExperience: '8+ years',
+                city: 'Mexico City',
+                keySkills: ['User Acquisition', 'Conversion Rate Optimization', 'Mobile Apps'],
+                contactModes: {
+                    video: {
+                        basePrice: 630,
+                        baseDurationMin: 10,
+                        pricePerExtraMin: 63,
+                        availableDurations: [10, 20, 30, 45, 60]
+                    },
+                    chat: {
+                        basePrice: 490,
+                        baseDurationMin: 10,
+                        pricePerExtraMin: 49,
+                        availableDurations: [10, 20, 30, 45, 60]
+                    },
+                    faceToFace: {
+                        basePrice: 1700,
+                        baseDurationMin: 60,
+                        pricePerExtraMin: 170,
+                        availableDurations: [60, 90, 120, 180]
+                    }
+                },
+                avatar: 'https://picsum.photos/id/1019/120/120', // Man
+                youtubeVideoId: '_OemNp6FgLE' // Evolution of Dance
+            },
+            // 10 NEW PROFILES ADDED BELOW
+            {
+                id: 'founder16',
+                name: 'Dr. Anya Sharma',
+                bio: 'Renowned AI ethicist and founder of "Ethical AI Solutions." Specializes in responsible AI development, policy, and bias mitigation.',
+                expertise: 'AI Ethics, Machine Learning, Policy',
+                yearsExperience: '14+ years',
+                city: 'Bengaluru',
+                keySkills: ['Responsible AI', 'AI Policy', 'Bias Mitigation'],
+                contactModes: {
+                    video: {
+                        basePrice: 800,
+                        baseDurationMin: 10,
+                        pricePerExtraMin: 80,
+                        availableDurations: [10, 20, 30, 45, 60]
+                    },
+                    chat: {
+                        basePrice: 650,
+                        baseDurationMin: 10,
+                        pricePerExtraMin: 65,
+                        availableDurations: [10, 20, 30, 45, 60]
+                    },
+                    faceToFace: {
+                        basePrice: 2800,
+                        baseDurationMin: 60,
+                        pricePerExtraMin: 280,
+                        availableDurations: [60, 90, 120, 180]
+                    }
+                },
+                avatar: 'https://picsum.photos/id/1020/120/120', // Woman
+                youtubeVideoId: 'XqZsoesa55w' // Example video
+            },
+            {
+                id: 'founder17',
+                name: 'Ben Carter',
+                bio: 'Experienced product manager from a Fortune 500 tech company. Focuses on product lifecycle, user research, and agile methodologies.',
+                expertise: 'Product Management, Agile, User Research',
+                yearsExperience: '12+ years',
+                city: 'Austin',
+                keySkills: ['Product Lifecycle', 'User Research', 'Agile Methodologies'],
+                contactModes: {
+                    video: {
+                        basePrice: 700,
+                        baseDurationMin: 10,
+                        pricePerExtraMin: 70,
+                        availableDurations: [10, 20, 30, 45, 60]
+                    },
+                    chat: {
+                        basePrice: 550,
+                        baseDurationMin: 10,
+                        pricePerExtraMin: 55,
+                        availableDurations: [10, 20, 30, 45, 60]
+                    },
+                    faceToFace: {
+                        basePrice: 2100,
+                        baseDurationMin: 60,
+                        pricePerExtraMin: 210,
+                        availableDurations: [60, 90, 120, 180]
+                    }
+                },
+                avatar: 'https://picsum.photos/id/1021/120/120', // Man
+                youtubeVideoId: 'L_jWHFFi5vs' // Example video
+            },
+            {
+                id: 'founder18',
+                name: 'Chloe Davis',
+                bio: 'Founder of "Sustainable Futures," a consultancy for eco-friendly businesses. Expertise in green technology, circular economy, and environmental policy.',
+                expertise: 'Sustainability, GreenTech, Environmental Consulting',
+                yearsExperience: '9+ years',
+                city: 'Vancouver',
+                keySkills: ['Green Technology', 'Circular Economy', 'Environmental Policy'],
+                contactModes: {
+                    video: {
+                        basePrice: 600,
+                        baseDurationMin: 10,
+                        pricePerExtraMin: 60,
+                        availableDurations: [10, 20, 30, 45, 60]
+                    },
+                    chat: {
+                        basePrice: 480,
+                        baseDurationMin: 10,
+                        pricePerExtraMin: 48,
+                        availableDurations: [10, 20, 30, 45, 60]
+                    },
+                    faceToFace: {
+                        basePrice: 1500,
+                        baseDurationMin: 60,
+                        pricePerExtraMin: 150,
+                        availableDurations: [60, 90, 120, 180]
+                    }
+                },
+                avatar: 'https://picsum.photos/id/1024/120/120', // Woman
+                youtubeVideoId: 'nrJtAQgW_Jk' // Example video
+            },
+            {
+                id: 'founder19',
+                name: 'Daniel Kim',
+                bio: 'Seasoned full-stack developer and mentor. Specializes in scalable web architectures, cloud computing, and modern JavaScript frameworks.',
+                expertise: 'Web Development, Cloud Computing, Coding',
+                yearsExperience: '16+ years',
+                city: 'Berlin',
+                keySkills: ['Scalable Web Architectures', 'Cloud Computing', 'JavaScript Frameworks'],
+                contactModes: {
+                    video: {
+                        basePrice: 750,
+                        baseDurationMin: 10,
+                        pricePerExtraMin: 75,
+                        availableDurations: [10, 20, 30, 45, 60]
+                    },
+                    chat: {
+                        basePrice: 600,
+                        baseDurationMin: 10,
+                        pricePerExtraMin: 60,
+                        availableDurations: [10, 20, 30, 45, 60]
+                    },
+                    faceToFace: {
+                        basePrice: 2300,
+                        baseDurationMin: 60,
+                        pricePerExtraMin: 230,
+                        availableDurations: [60, 90, 120, 180]
+                    }
+                },
+                avatar: 'https://picsum.photos/id/1026/120/120', // Man
+                youtubeVideoId: 'q_q6g_q_q_q' // Example video
+            },
+            {
+                id: 'founder20',
+                name: 'Eva Rodriguez',
+                bio: 'Brand strategist and creative director. Helps startups build strong brand identities, compelling narratives, and effective marketing campaigns.',
+                expertise: 'Brand Strategy, Marketing, Creative Direction',
+                yearsExperience: '11+ years',
+                city: 'Madrid',
+                keySkills: ['Brand Identity', 'Compelling Narratives', 'Marketing Campaigns'],
+                contactModes: {
+                    video: {
+                        basePrice: 650,
+                        baseDurationMin: 10,
+                        pricePerExtraMin: 65,
+                        availableDurations: [10, 20, 30, 45, 60]
+                    },
+                    chat: {
+                        basePrice: 500,
+                        baseDurationMin: 10,
+                        pricePerExtraMin: 50,
+                        availableDurations: [10, 20, 30, 45, 60]
+                    },
+                    faceToFace: {
+                        basePrice: 1700,
+                        baseDurationMin: 60,
+                        pricePerExtraMin: 170,
+                        availableDurations: [60, 90, 120, 180]
+                    }
+                },
+                avatar: 'https://picsum.photos/id/1028/120/120', // Woman
+                youtubeVideoId: 'y_y_y_y_y_y' // Example video
+            },
+            {
+                id: 'founder21',
+                name: 'Frank White',
+                bio: 'Venture Capitalist with a focus on early-stage investments in SaaS and AI. Provides insights on fundraising, valuation, and investor relations.',
+                expertise: 'Venture Capital, Fundraising, SaaS',
+                yearsExperience: '20+ years',
+                city: 'Boston',
+                keySkills: ['Early-Stage Investments', 'Fundraising', 'Valuation', 'Investor Relations'],
+                contactModes: {
+                    video: {
+                        basePrice: 900,
+                        baseDurationMin: 10,
+                        pricePerExtraMin: 90,
+                        availableDurations: [10, 20, 30, 45, 60]
+                    },
+                    chat: {
+                        basePrice: 750,
+                        baseDurationMin: 10,
+                        pricePerExtraMin: 75,
+                        availableDurations: [10, 20, 30, 45, 60]
+                    },
+                    faceToFace: {
+                        basePrice: 3500,
+                        baseDurationMin: 60,
+                        pricePerExtraMin: 350,
+                        availableDurations: [60, 90, 120, 180]
+                    }
+                },
+                avatar: 'https://picsum.photos/id/1035/120/120', // Man
+                youtubeVideoId: 'z_z_z_z_z_z' // Example video
+            },
+            {
+                id: 'founder22',
+                name: 'Grace Lee',
+                bio: 'Legal expert specializing in intellectual property and startup law. Advises on patents, trademarks, and legal compliance for tech companies.',
+                expertise: 'Legal, Intellectual Property, Startup Law',
+                yearsExperience: '18+ years',
+                city: 'San Jose',
+                keySkills: ['Intellectual Property', 'Startup Law', 'Patents', 'Trademarks'],
+                contactModes: {
+                    video: {
+                        basePrice: 850,
+                        baseDurationMin: 10,
+                        pricePerExtraMin: 85,
+                        availableDurations: [10, 20, 30, 45, 60]
+                    },
+                    chat: {
+                        basePrice: 700,
+                        baseDurationMin: 10,
+                        pricePerExtraMin: 70,
+                        availableDurations: [10, 20, 30, 45, 60]
+                    },
+                    faceToFace: {
+                        basePrice: 3200,
+                        baseDurationMin: 60,
+                        pricePerExtraMin: 320,
+                        availableDurations: [60, 90, 120, 180]
+                    }
+                },
+                avatar: 'https://picsum.photos/id/1037/120/120', // Woman
+                youtubeVideoId: 'a_a_a_a_a_a' // Example video
+            },
+            {
+                id: 'founder23',
+                name: 'Henry Wong',
+                bio: 'Operations specialist with a background in optimizing business processes and building efficient teams for rapid growth.',
+                expertise: 'Operations, Process Optimization, Team Building',
+                yearsExperience: '13+ years',
+                city: 'Singapore',
+                keySkills: ['Business Process Optimization', 'Efficient Teams', 'Rapid Growth'],
+                contactModes: {
+                    video: {
+                        basePrice: 680,
+                        baseDurationMin: 10,
+                        pricePerExtraMin: 68,
+                        availableDurations: [10, 20, 30, 45, 60]
+                    },
+                    chat: {
+                        basePrice: 530,
+                        baseDurationMin: 10,
+                        pricePerExtraMin: 53,
+                        availableDurations: [10, 20, 30, 45, 60]
+                    },
+                    faceToFace: {
+                        basePrice: 1900,
+                        baseDurationMin: 60,
+                        pricePerExtraMin: 190,
+                        availableDurations: [60, 90, 120, 180]
+                    }
+                },
+                avatar: 'https://picsum.photos/id/1038/120/120', // Man
+                youtubeVideoId: 'b_b_b_b_b_b' // Example video
+            },
+            {
+                id: 'founder24',
+                name: 'Isabella Garcia',
+                bio: 'HR and talent acquisition leader. Expertise in remote hiring, company culture development, and employee retention strategies.',
+                expertise: 'HR, Talent Acquisition, Company Culture',
+                yearsExperience: '10+ years',
+                city: 'Dublin',
+                keySkills: ['Remote Hiring', 'Company Culture', 'Employee Retention'],
+                contactModes: {
+                    video: {
+                        basePrice: 600,
+                        baseDurationMin: 10,
+                        pricePerExtraMin: 60,
+                        availableDurations: [10, 20, 30, 45, 60]
+                    },
+                    chat: {
+                        basePrice: 450,
+                        baseDurationMin: 10,
+                        pricePerExtraMin: 45,
+                        availableDurations: [10, 20, 30, 45, 60]
+                    },
+                    faceToFace: {
+                        basePrice: 1600,
+                        baseDurationMin: 60,
+                        pricePerExtraMin: 160,
+                        availableDurations: [60, 90, 120, 180]
+                    }
+                },
+                avatar: 'https://picsum.photos/id/1039/120/120', // Woman
+                youtubeVideoId: 'c_c_c_c_c_c' // Example video
+            },
+            {
+                id: 'founder25',
+                name: 'Jack Thompson',
+                bio: 'Cybersecurity architect and ethical hacker. Specializes in penetration testing, network security, and incident response.',
+                expertise: 'Cybersecurity, Network Security, Ethical Hacking',
+                yearsExperience: '15+ years',
+                city: 'Tel Aviv',
+                keySkills: ['Penetration Testing', 'Network Security', 'Incident Response'],
+                contactModes: {
+                    video: {
+                        basePrice: 780,
+                        baseDurationMin: 10,
+                        pricePerExtraMin: 78,
+                        availableDurations: [10, 20, 30, 45, 60]
+                    },
+                    chat: {
+                        basePrice: 620,
+                        baseDurationMin: 10,
+                        pricePerExtraMin: 62,
+                        availableDurations: [10, 20, 30, 45, 60]
+                    },
+                    faceToFace: {
+                        basePrice: 2600,
+                        baseDurationMin: 60,
+                        pricePerExtraMin: 260,
+                        availableDurations: [60, 90, 120, 180]
+                    }
+                },
+                avatar: 'https://picsum.photos/id/1040/120/120', // Man
+                youtubeVideoId: 'd_d_d_d_d_d' // Example video
+            },
+            {
+                id: 'founder26',
+                name: 'Olivia Wilson',
+                bio: 'Specializes in sustainable fashion and ethical supply chains. Founder of "EcoChic Apparel," promoting eco-friendly practices.',
+                expertise: 'Sustainable Fashion, Ethical Supply Chain',
+                yearsExperience: '8+ years',
+                city: 'Paris',
+                keySkills: ['Sustainable Sourcing', 'Ethical Manufacturing', 'Brand Storytelling'],
+                contactModes: {
+                    video: {
+                        basePrice: 550,
+                        baseDurationMin: 10,
+                        pricePerExtraMin: 55,
+                        availableDurations: [10, 20, 30, 45, 60]
+                    },
+                    chat: {
+                        basePrice: 400,
+                        baseDurationMin: 10,
+                        pricePerExtraMin: 40,
+                        availableDurations: [10, 20, 30, 45, 60]
+                    },
+                    faceToFace: {
+                        basePrice: 1300,
+                        baseDurationMin: 60,
+                        pricePerExtraMin: 130,
+                        availableDurations: [60, 90, 120, 180]
+                    }
+                },
+                avatar: 'https://picsum.photos/id/1041/120/120', // Woman
+                youtubeVideoId: 'e_e_e_e_e_e'
+            },
+            {
+                id: 'founder27',
+                name: 'Noah Brown',
+                bio: 'Expert in renewable energy project development and investment. Works with startups to secure funding for green tech initiatives.',
+                expertise: 'Renewable Energy, Project Finance',
+                yearsExperience: '14+ years',
+                city: 'Oslo',
+                keySkills: ['Solar Energy', 'Wind Power', 'Investment Strategy'],
+                contactModes: {
+                    video: {
+                        basePrice: 700,
+                        baseDurationMin: 10,
+                        pricePerExtraMin: 70,
+                        availableDurations: [10, 20, 30, 45, 60]
+                    },
+                    chat: {
+                        basePrice: 550,
+                        baseDurationMin: 10,
+                        pricePerExtraMin: 55,
+                        availableDurations: [10, 20, 30, 45, 60]
+                    },
+                    faceToFace: {
+                        basePrice: 2000,
+                        baseDurationMin: 60,
+                        pricePerExtraMin: 200,
+                        availableDurations: [60, 90, 120, 180]
+                    }
+                },
+                avatar: 'https://picsum.photos/id/1042/120/120', // Man
+                youtubeVideoId: 'f_f_f_f_f_f'
+            },
+            {
+                id: 'founder28',
+                name: 'Sophia Garcia',
+                bio: 'Specialist in mental health tech and digital therapeutics. Co-founder of "MindFlow," an app for anxiety management.',
+                expertise: 'Mental Health Tech, Digital Therapeutics',
+                yearsExperience: '7+ years',
+                city: 'Sydney',
+                keySkills: ['App Development', 'User Engagement', 'Clinical Validation'],
+                contactModes: {
+                    video: {
+                        basePrice: 600,
+                        baseDurationMin: 10,
+                        pricePerExtraMin: 60,
+                        availableDurations: [10, 20, 30, 45, 60]
+                    },
+                    chat: {
+                        basePrice: 450,
+                        baseDurationMin: 10,
+                        pricePerExtraMin: 45,
+                        availableDurations: [10, 20, 30, 45, 60]
+                    },
+                    faceToFace: {
+                        basePrice: 1500,
+                        baseDurationMin: 60,
+                        pricePerExtraMin: 150,
+                        availableDurations: [60, 90, 120, 180]
+                    }
+                },
+                avatar: 'https://picsum.photos/id/1043/120/120', // Woman
+                youtubeVideoId: 'g_g_g_g_g_g'
+            },
+            {
+                id: 'founder29',
+                name: 'Liam Martinez',
+                bio: 'Seasoned expert in robotics and automation for manufacturing. Helps companies implement AI-driven automation solutions.',
+                expertise: 'Robotics, Automation, AI Integration',
+                yearsExperience: '18+ years',
+                city: 'Tokyo',
+                keySkills: ['Industrial Robotics', 'Machine Learning', 'Process Automation'],
+                contactModes: {
+                    video: {
+                        basePrice: 800,
+                        baseDurationMin: 10,
+                        pricePerExtraMin: 80,
+                        availableDurations: [10, 20, 30, 45, 60]
+                    },
+                    chat: {
+                        basePrice: 650,
+                        baseDurationMin: 10,
+                        pricePerExtraMin: 65,
+                        availableDurations: [10, 20, 30, 45, 60]
+                    },
+                    faceToFace: {
+                        basePrice: 2800,
+                        baseDurationMin: 60,
+                        pricePerExtraMin: 280,
+                        availableDurations: [60, 90, 120, 180]
+                    }
+                },
+                avatar: 'https://picsum.photos/id/1044/120/120', // Man
+                youtubeVideoId: 'h_h_h_h_h_h'
+            },
+            {
+                id: 'founder30',
+                name: 'Emma Taylor',
+                bio: 'Marketing and PR specialist for luxury brands. Focuses on brand positioning, influencer marketing, and high-end consumer engagement.',
+                expertise: 'Luxury Marketing, PR, Brand Strategy',
+                yearsExperience: '13+ years',
+                city: 'Milan',
+                keySkills: ['Influencer Marketing', 'Brand Positioning', 'Consumer Engagement'],
+                contactModes: {
+                    video: {
+                        basePrice: 750,
+                        baseDurationMin: 10,
+                        pricePerExtraMin: 75,
+                        availableDurations: [10, 20, 30, 45, 60]
+                    },
+                    chat: {
+                        basePrice: 600,
+                        baseDurationMin: 10,
+                        pricePerExtraMin: 60,
+                        availableDurations: [10, 20, 30, 45, 60]
+                    },
+                    faceToFace: {
+                        basePrice: 2400,
+                        baseDurationMin: 60,
+                        pricePerExtraMin: 240,
+                        availableDurations: [60, 90, 120, 180]
+                    }
+                },
+                avatar: 'https://picsum.photos/id/1045/120/120', // Woman
+                youtubeVideoId: 'i_i_i_i_i_i'
+            }
+        ];
+
+        // Sample Client Review Data
+        const clientReviews = [
+            {
+                name: 'Anjali Desai',
+                photo: 'https://picsum.photos/id/1014/120/120', // Woman
+                rating: 5,
+                learned: 'Navigating early-stage funding rounds.',
+                testimonial: 'Mentor Mitra connected me with an incredible founder who helped me refine my pitch deck. The insights were invaluable, and I secured seed funding shortly after!'
+            },
+            {
+                name: 'Bharat Sharma',
+                photo: 'https://picsum.photos/id/1005/120/120', // Man
+                rating: 4,
+                learned: 'Effective digital marketing strategies for SaaS.',
+                testimonial: 'The expert I consulted provided clear, actionable steps for our digital marketing. Our conversion rates improved significantly within a month. Highly recommend this platform!'
+            },
+            {
+                name: 'Chloe Lim',
+                photo: 'https://picsum.photos/id/1006/120/120', // Woman
+                rating: 5,
+                learned: 'Building a resilient remote team culture.',
+                testimonial: 'As a new remote CEO, I struggled with team cohesion. My mentor on Mentor Mitra shared practical tips that transformed our team dynamics. Fantastic app!'
+            },
+            {
+                name: 'Dev Patel',
+                photo: 'https://picsum.photos/id/1009/120/120', // Man
+                rating: 4,
+                learned: 'Blockchain integration for FinTech products.',
+                testimonial: 'I had a complex query about blockchain, and the FinTech expert provided such a clear explanation and roadmap. This platform is a game-changer for niche advice.'
+            },
+            {
+                name: 'Esha Gupta',
+                photo: 'https://picsum.photos/id/1010/120/120', // Woman
+                rating: 5,
+                learned: 'User-centric UI/UX design principles.',
+                testimonial: 'The design mentor was brilliant! Their feedback on my app’s UI/UX was precise and directly led to a much more intuitive user experience. Five stars!'
+            },
+            {
+                name: 'Fahad Khan',
+                photo: 'https://picsum.photos/id/1016/120/120', // Man
+                rating: 4,
+                learned: 'Sustainable supply chain practices.',
+                testimonial: 'Our AgriTech startup needed advice on sustainable sourcing. The expert here gave us a comprehensive plan that is both ethical and cost-effective. Very impressed.'
+            },
+            {
+                name: 'Gia Sharma',
+                photo: 'https://picsum.photos/id/1018/120/120', // Woman
+                rating: 5,
+                learned: 'Scaling engineering teams efficiently.',
+                testimonial: 'I learned so much about structuring my engineering team for rapid growth. The mentor had real-world experience that shone through every piece of advice. Highly recommended!'
+            },
+            {
+                name: 'Harsh Vardhan',
+                photo: 'https://picsum.photos/id/1025/120/120', // Man
+                rating: 4,
+                learned: 'Content strategy for D2C brand building.',
+                testimonial: 'The content strategy session was incredibly insightful. We revamped our entire approach, and the engagement metrics are already looking much better. Great platform for focused learning.'
+            },
+            {
+                name: 'Isha Reddy',
+                photo: 'https://picsum.photos/id/1027/120/120', // Woman
+                rating: 5,
+                learned: 'Implementing AI for clinical diagnostics.',
+                testimonial: 'My mentor helped me understand the practicalities and challenges of integrating AI into healthcare. Their expertise saved me months of trial and error. Excellent resource!'
+            },
+            {
+                name: 'Jay Singh',
+                photo: 'https://picsum.photos/id/1037/120/120', // Man
+                rating: 5,
+                learned: 'Brand positioning in a competitive market.',
+                testimonial: 'The branding expert was phenomenal. They helped me carve out a unique position for my product, and the market response has been overwhelmingly positive. Thank you, Mentor Mitra!'
+            }
+        ];
+
+
+        // Global variable to track how many profiles are currently shown
+        let profilesCurrentlyShown = 9; // Initial number of profiles to display, reduced from 15
+        const profilesPerPage = 3; // Number of profiles to show each time "Show More" is clicked, reduced from 5
+
+        // Get elements
+        const htmlElement = document.documentElement;
+        const welcomeScreen = document.getElementById('welcome-screen');
+        const getStartedBtn = document.getElementById('get-started-btn');
+        const mainHeader = document.getElementById('main-header');
+        const mainContent = document.getElementById('main-content');
+        const mainFooter = document.getElementById('main-footer');
+
+        const founderProfilesContainer = document.getElementById('founder-profiles');
+        const profileModal = document.getElementById('profile-modal');
+        const modalAvatar = document.getElementById('modal-avatar');
+        const modalName = document.getElementById('modal-name');
+        const modalExpertise = document.getElementById('modal-expertise');
+        const modalBio = document.getElementById('modal-bio');
+        const modalConnectName = document.getElementById('modal-connect-name');
+
+        // New elements for duration selection
+        const videoDurationSelect = document.getElementById('video-duration-select');
+        const chatDurationSelect = document.getElementById('chat-duration-select');
+        const faceToFaceDurationSelect = document.getElementById('face-to-face-duration-select');
+
+        const modalVideoPrice = document.getElementById('modal-video-price');
+        const modalChatPrice = document.getElementById('modal-chat-price');
+        const modalFaceToFacePrice = document.getElementById('modal-face-to-face-price'); // New element
+
+        const videoCallBtn = document.getElementById('video-call-btn');
+        const chatSessionBtn = document.getElementById('chat-session-btn');
+        const faceToFaceBtn = document.getElementById('face-to-face-btn'); // New element
+
+        const messageArea = document.getElementById('message-area');
+        const transactionMessage = document.getElementById('transaction-message');
+        const interactionMessage = document.getElementById('interaction-message');
+        const suggestQuestionsBtn = document.getElementById('suggest-questions-btn');
+        const suggestedQuestionsArea = document.getElementById('suggested-questions-area');
+        const questionsList = document.getElementById('questions-list');
+        const suggestQuestionsSpinner = document.getElementById('suggest-questions-spinner');
+        const modalVideoEmbedContainer = document.getElementById('modal-video-embed-container');
+        const draftIntroBtn = document.getElementById('draft-intro-btn');
+        const draftIntroSpinner = document.getElementById('draft-intro-spinner');
+        const draftedIntroArea = document.getElementById('drafted-intro-area');
+        const introText = document.getElementById('intro-text');
+        const filterButtons = document.querySelectorAll('.filter-button');
+        const searchInput = document.getElementById('search-input');
+        const showMoreBtn = document.getElementById('show-more-btn');
+        const showMoreContainer = document.getElementById('show-more-container');
+
+        // Mobile menu elements
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileNavOverlay = document.getElementById('mobile-nav-overlay');
+        const closeMobileMenuButton = document.getElementById('close-mobile-menu');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+        // Animated text elements
+        const footerAnimatedText = document.getElementById('footer-animated-text');
+        // Removed expertsAnimatedText as it's no longer used for the animated text.
+
+        // Reviews section elements
+        const reviewsContainer = document.querySelector('.reviews-container');
+
+        // Footer elements
+        const newsletterEmailInput = document.getElementById('newsletter-email');
+        const subscribeBtn = document.getElementById('subscribe-btn');
+        const newsletterMessage = document.getElementById('newsletter-message');
+        const backToTopBtn = document.getElementById('back-to-top-btn');
+
+
+        let selectedFounder = null; // To store the currently selected founder
+
+        // Placeholder animation variables
+        const placeholders = [
+            "Search by name...",
+            "Search by expertise...",
+            "Search by industry..."
+        ];
+        let currentPlaceholderIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        let typingSpeed = 100; // milliseconds per character
+        let deletingSpeed = 50; // milliseconds per character
+        let delayBetweenPhrases = 1500; // milliseconds before typing next phrase
+        let placeholderInterval;
+
+        /**
+         * Typewriter effect for the search input placeholder.
+         */
+        function typePlaceholder() {
+            const currentPlaceholder = placeholders[currentPlaceholderIndex];
+            if (isDeleting) {
+                searchInput.placeholder = currentPlaceholder.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                searchInput.placeholder = currentPlaceholder.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            if (!isDeleting && charIndex === currentPlaceholder.length) {
+                // Pause at the end of typing
+                setTimeout(() => isDeleting = true, delayBetweenPhrases);
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                currentPlaceholderIndex = (currentPlaceholderIndex + 1) % placeholders.length;
+            }
+
+            const currentSpeed = isDeleting ? deletingSpeed : typingSpeed;
+            placeholderInterval = setTimeout(typePlaceholder, currentSpeed);
+        }
+
+        /**
+         * Animates a given text string by typing it out character by character.
+         * @param {HTMLElement} element - The HTML element to display the animated text.
+         * @param {string} text - The plain text string to animate.
+         * @param {number} speed - The speed of typing in milliseconds per character.
+         */
+        function animateText(element, text, speed) {
+            let i = 0;
+            element.textContent = ''; // Clear content initially
+            const typingInterval = setInterval(() => {
+                if (i < text.length) {
+                    element.textContent += text.charAt(i);
+                    i++;
+                } else {
+                    clearInterval(typingInterval);
+                }
+            }, speed);
+        }
+
+        /**
+         * Hides the welcome screen and shows the main content.
+         */
+        function showMainContent() {
+            welcomeScreen.classList.add('hidden');
+            mainHeader.classList.remove('hidden');
+            mainContent.classList.remove('hidden');
+            mainFooter.classList.remove('hidden');
+
+            // Re-render profiles and start animations for main content
+            renderFounderProfiles();
+            renderClientReviews(); // Render client reviews
+            animateText(footerAnimatedText, 'This company is owned by AMD GROUP.', 50);
+            // Removed animateText for expertsAnimatedText as it's no longer needed.
+            typePlaceholder(); // Start placeholder animation on main content
+        }
+
+
+        // Event listener for the "Get Started" button
+        getStartedBtn.addEventListener('click', showMainContent);
+
+        // Start welcome screen animation on load
+        document.addEventListener('DOMContentLoaded', () => {
+            // The welcome title is now static, no animation needed here.
+            // The main content will be shown by calling showMainContent() on button click
+        });
+
+        // Pause/resume animation based on user input
+        searchInput.addEventListener('focus', () => {
+            clearTimeout(placeholderInterval); // Stop animation when focused
+        });
+
+        searchInput.addEventListener('blur', () => {
+            if (searchInput.value === '') {
+                // Restart animation if input is empty after blur
+                charIndex = 0;
+                isDeleting = false;
+                typePlaceholder();
+            }
+        });
+
+        searchInput.addEventListener('input', () => {
+            if (searchInput.value !== '') {
+                clearTimeout(placeholderInterval); // Stop animation if user types
+                searchInput.placeholder = ""; // Clear placeholder immediately
+            } else {
+                // If user clears input, restart animation
+                charIndex = 0;
+                isDeleting = false;
+                typePlaceholder();
+            }
+        });
+
+
+        /**
+         * Renders the founder profiles into the main grid, applying filters and search.
+         * @param {string} filter - The expertise filter to apply (e.g., "Startup", "Marketing"). Pass "All" or null to show all.
+         * @param {string} searchTerm - The search term to apply to name, expertise, or bio.
+         */
+        function renderFounderProfiles(filter = 'All', searchTerm = '') {
+            founderProfilesContainer.innerHTML = ''; // Clear existing profiles
+            let filteredAndSearchedFounders = founders;
+
+            // Apply search term filter first
+            if (searchTerm) {
+                const lowerCaseSearchTerm = searchTerm.toLowerCase();
+                filteredAndSearchedFounders = filteredAndSearchedFounders.filter(founder =>
+                    founder.name.toLowerCase().includes(lowerCaseSearchTerm) ||
+                    founder.expertise.toLowerCase().includes(lowerCaseSearchTerm) ||
+                    founder.bio.toLowerCase().includes(lowerCaseSearchTerm) ||
+                    founder.yearsExperience.toLowerCase().includes(lowerCaseSearchTerm) ||
+                    founder.keySkills.some(skill => skill.toLowerCase().includes(lowerCaseSearchTerm)) ||
+                    founder.city.toLowerCase().includes(lowerCaseSearchTerm) // Include city in search
+                );
+            }
+
+            // Apply expertise filter
+            if (filter && filter !== 'All') {
+                const lowerCaseFilter = filter.toLowerCase();
+                filteredAndSearchedFounders = filteredAndSearchedFounders.filter(founder =>
+                    founder.expertise.toLowerCase().includes(lowerCaseFilter) ||
+                    founder.keySkills.some(skill => skill.toLowerCase().includes(lowerCaseFilter))
+                );
+            }
+
+            // Determine how many profiles to show based on `profilesCurrentlyShown`
+            const profilesToRender = filteredAndSearchedFounders.slice(0, profilesCurrentlyShown);
+
+            if (profilesToRender.length === 0) {
+                founderProfilesContainer.innerHTML = `
+                    <div class="col-span-full text-center text-gray-600 dark:text-gray-400 text-lg py-10">
+                        No mentors found matching your criteria.
+                    </div>
+                `;
+                showMoreContainer.classList.add('hidden'); // Hide show more button if no profiles
+                return;
+            }
+
+            profilesToRender.forEach(founder => {
+                const profileCard = document.createElement('div');
+                profileCard.classList.add(
+                    'bg-white', 'rounded-xl', 'shadow-lg', 'p-3', 'flex', 'flex-col',
+                    'items-center', 'text-center', 'transform', 'hover:scale-105',
+                    'transition', 'duration-300', 'ease-in-out', 'cursor-pointer',
+                    'border', 'border-gray-200', 'dark:bg-gray-800', 'dark:border-gray-700',
+                    'profile-card' /* Add the new class here */
+                );
+                profileCard.setAttribute('data-id', founder.id); // Store founder ID
+
+                // Construct the video link HTML
+                let videoContentHtml = '';
+                if (founder.youtubeVideoId) {
+                    videoContentHtml = `
+                        <a href="https://www.youtube.com/watch?v=${founder.youtubeVideoId}" target="_blank" rel="noopener noreferrer" class="watch-video-btn mt-4 text-blue-500 hover:underline text-sm flex items-center">
+                            <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"></path></svg>
+                            Watch Video
+                        </a>`;
+                }
+
+                profileCard.innerHTML = `
+                    <div class="absolute top-2 right-2 flex flex-col items-end text-base font-semibold text-gray-700 dark:text-gray-300">
+                        <span>${founder.yearsExperience}</span>
+                        <span>${founder.city}</span>
+                    </div>
+                    <img src="${founder.avatar}" alt="${founder.name} Avatar" class="w-16 h-16 rounded-full object-cover mb-3 shadow-md mt-6" onerror="this.onerror=null;this.src='https://placehold.co/120x120/cccccc/333333?text=N/A';">
+                    <h3 class="text-base font-bold text-gray-900 mb-1">${founder.name}</h3>
+                    <p class="text-sm text-blue-600 font-medium mb-1">${founder.expertise}</p>
+                    <p class="text-gray-600 text-xs mb-3"><strong>Skills:</strong> ${founder.keySkills.slice(0, 3).join(', ')}${founder.keySkills.length > 3 ? '...' : ''}</p>
+                    <div class="flex justify-center space-x-3 text-gray-800 font-semibold text-xs">
+                        <span>Video: ₹${founder.contactModes.video.basePrice}/${founder.contactModes.video.baseDurationMin}min</span>
+                        <span>Chat: ₹${founder.contactModes.chat.basePrice}/${founder.contactModes.chat.baseDurationMin}min</span>
+                        <span>F2F: ₹${founder.contactModes.faceToFace.basePrice}/${founder.contactModes.faceToFace.baseDurationMin/60}hr</span>
+                    </div>
+                    ${videoContentHtml}
+                    <button class="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out text-sm"> View Profile
+                    </button>
+                `;
+
+                // For the "View Profile" button, keep the openModal functionality
+                profileCard.querySelector('button').addEventListener('click', () => {
+                    openModal(founder.id); // Open modal, default to profile info
+                });
+
+                // Add event listener for the "Watch Video" link if it exists
+                const watchVideoLink = profileCard.querySelector('.watch-video-btn');
+                if (watchVideoLink) {
+                    watchVideoLink.addEventListener('click', (event) => {
+                        // Prevent the card's general click handler from firing
+                        event.stopPropagation();
+                    });
+                }
+
+                founderProfilesContainer.appendChild(profileCard);
+            });
+
+            // Show/hide "Show More" button
+            if (profilesCurrentlyShown < filteredAndSearchedFounders.length) {
+                showMoreContainer.classList.remove('hidden');
+            } else {
+                showMoreContainer.classList.add('hidden');
+            }
+        }
+
+        /**
+         * Populates the duration select dropdown for a given contact mode.
+         * @param {HTMLSelectElement} selectElement - The select element to populate.
+         * @param {Array<number>} durations - An array of available durations in minutes.
+         * @param {string} type - 'video', 'chat', or 'faceToFace' to determine unit display.
+         */
+        function populateDurationSelect(selectElement, durations, type) {
+            selectElement.innerHTML = ''; // Clear existing options
+            durations.forEach(duration => {
+                const option = document.createElement('option');
+                option.value = duration;
+                if (type === 'faceToFace') {
+                    option.textContent = `${duration / 60} hour${duration === 60 ? '' : 's'}`;
+                } else {
+                    option.textContent = `${duration} minutes`;
+                }
+                selectElement.appendChild(option);
+            });
+        }
+
+        /**
+         * Calculates the total price for a given contact mode and duration.
+         * @param {object} modeData - The contact mode data (e.g., selectedFounder.contactModes.video).
+         * @param {number} selectedDuration - The selected duration in minutes.
+         * @returns {number} The calculated total price.
+         */
+        function calculatePrice(modeData, selectedDuration) {
+            if (selectedDuration <= modeData.baseDurationMin) {
+                return modeData.basePrice;
+            } else {
+                const extraMinutes = selectedDuration - modeData.baseDurationMin;
+                return modeData.basePrice + (extraMinutes * modeData.pricePerExtraMin);
+            }
+        }
+
+        /**
+         * Updates the displayed price for a given contact mode based on the selected duration.
+         * @param {string} mode - 'video', 'chat', or 'faceToFace'.
+         */
+        function updatePriceDisplay(mode) {
+            if (!selectedFounder) return;
+
+            let selectElement;
+            let priceDisplayElement;
+            let modeData;
+
+            if (mode === 'video') {
+                selectElement = videoDurationSelect;
+                priceDisplayElement = modalVideoPrice;
+                modeData = selectedFounder.contactModes.video;
+            } else if (mode === 'chat') {
+                selectElement = chatDurationSelect;
+                priceDisplayElement = modalChatPrice;
+                modeData = selectedFounder.contactModes.chat;
+            } else if (mode === 'faceToFace') {
+                selectElement = faceToFaceDurationSelect;
+                priceDisplayElement = modalFaceToFacePrice;
+                modeData = selectedFounder.contactModes.faceToFace;
+            }
+
+            const selectedDuration = parseInt(selectElement.value);
+            const totalPrice = calculatePrice(modeData, selectedDuration);
+            priceDisplayElement.textContent = totalPrice;
+        }
+
+        /**
+         * Opens the profile detail modal and populates it with founder data.
+         * @param {string} founderId - The ID of the founder to display.
+         * @param {boolean} showVideoInitially - If true, immediately shows the video, otherwise shows profile details.
+         */
+        function openModal(founderId, showVideoInitially = false) {
+            selectedFounder = founders.find(f => f.id === founderId);
+            if (selectedFounder) {
+                modalAvatar.src = selectedFounder.avatar;
+                modalName.textContent = selectedFounder.name;
+                modalExpertise.textContent = selectedFounder.expertise;
+                modalBio.textContent = selectedFounder.bio; // Full bio for modal
+                modalConnectName.textContent = selectedFounder.name;
+
+                // Populate and set initial prices for duration selectors
+                populateDurationSelect(videoDurationSelect, selectedFounder.contactModes.video.availableDurations, 'video');
+                populateDurationSelect(chatDurationSelect, selectedFounder.contactModes.chat.availableDurations, 'chat');
+                populateDurationSelect(faceToFaceDurationSelect, selectedFounder.contactModes.faceToFace.availableDurations, 'faceToFace');
+
+                // Set initial prices
+                updatePriceDisplay('video');
+                updatePriceDisplay('chat');
+                updatePriceDisplay('faceToFace');
+
+                // Add event listeners for duration changes (if not already added)
+                videoDurationSelect.onchange = () => updatePriceDisplay('video');
+                chatDurationSelect.onchange = () => updatePriceDisplay('chat');
+                faceToFaceDurationSelect.onchange = () => updatePriceDisplay('faceToFace');
+
+                // Clear and hide video container by default
+                modalVideoEmbedContainer.innerHTML = '';
+                modalVideoEmbedContainer.classList.add('hidden');
+
+                // If showVideoInitially is true, embed the video
+                if (showVideoInitially && selectedFounder.youtubeVideoId) {
+                    const iframe = document.createElement('iframe');
+                    // Corrected YouTube embed URL format
+                    iframe.src = `https://www.youtube.com/embed/${selectedFounder.youtubeVideoId}?autoplay=1`; // Added autoplay for immediate playback
+                    iframe.setAttribute('frameborder', '0');
+                    iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+                    iframe.setAttribute('allowfullscreen', '');
+                    iframe.classList.add('w-full', 'h-64', 'md:h-96', 'rounded-lg'); // Tailwind classes for responsive sizing
+                    modalVideoEmbedContainer.appendChild(iframe);
+                    modalVideoEmbedContainer.classList.remove('hidden');
+                }
+
+
+                // Reset messages and suggested questions and drafted intro
+                messageArea.classList.add('hidden');
+                transactionMessage.textContent = '';
+                interactionMessage.textContent = '';
+                suggestedQuestionsArea.classList.add('hidden');
+                questionsList.innerHTML = ''; // Clear previous questions
+                draftedIntroArea.classList.add('hidden');
+                introText.textContent = '';
+
+                profileModal.classList.add('show'); // Add 'show' class for fade-in/slide-in
+                profileModal.style.display = 'flex'; // Show modal using flex for centering
+            }
+        }
+
+        /**
+         * Closes the profile detail modal.
+         */
+        function closeModal() {
+            profileModal.classList.remove('show'); // Remove 'show' class for fade-out/slide-out
+            // Hide the modal after the animation completes
+            setTimeout(() => {
+                profileModal.style.display = 'none';
+                selectedFounder = null; // Clear selected founder
+                modalVideoEmbedContainer.innerHTML = ''; // Clear video on close
+                modalVideoEmbedContainer.classList.add('hidden'); // Hide container
+                const skillsContainer = document.getElementById('modal-skills-container');
+                if (skillsContainer) {
+                    skillsContainer.remove(); // Clean up skills container from modal
+                }
+            }, 300); // Match CSS transition duration
+        }
+
+        /**
+         * Handles the booking and payment simulation.
+         * @param {string} type - 'video', 'chat', or 'faceToFace'.
+         */
+        function handleBooking(type) {
+            if (!selectedFounder) return;
+
+            let selectedDuration;
+            let modeData;
+            let interactionType;
+
+            if (type === 'video') {
+                selectedDuration = parseInt(videoDurationSelect.value);
+                modeData = selectedFounder.contactModes.video;
+                interactionType = 'Video Call';
+            } else if (type === 'chat') {
+                selectedDuration = parseInt(chatDurationSelect.value);
+                modeData = selectedFounder.contactModes.chat;
+                interactionType = 'Chat Session';
+            } else if (type === 'faceToFace') {
+                selectedDuration = parseInt(faceToFaceDurationSelect.value);
+                modeData = selectedFounder.contactModes.faceToFace;
+                interactionType = 'Face to Face Meeting';
+            }
+
+            const totalPrice = calculatePrice(modeData, selectedDuration);
+            const durationDisplay = type === 'faceToFace' ? `${selectedDuration / 60} hour${selectedDuration === 60 ? '' : 's'}` : `${selectedDuration} minutes`;
+
+            // Simulate secure transaction
+            transactionMessage.textContent = `Processing secure payment of ₹${totalPrice} for a ${durationDisplay} ${interactionType} with ${selectedFounder.name}...`;
+            messageArea.classList.remove('hidden');
+
+            // Simulate payment success and access to interaction after a short delay
+            setTimeout(() => {
+                transactionMessage.textContent = `Payment successful! You've booked a ${durationDisplay} ${interactionType} with ${selectedFounder.name}.`;
+                interactionMessage.textContent = `You will now be connected to the ${interactionType}. (This is a simulation)`;
+                // In a real app, this would initiate the actual video call or chat
+            }, 2000); // 2 second delay for simulation
+        }
+
+        /**
+         * Calls the Gemini API to suggest questions based on founder expertise.
+         */
+        async function suggestQuestions() {
+            if (!selectedFounder) return;
+
+            suggestQuestionsBtn.disabled = true; // Disable button during loading
+            suggestQuestionsSpinner.classList.remove('hidden'); // Show spinner
+            suggestedQuestionsArea.classList.add('hidden'); // Hide previous suggestions
+            questionsList.innerHTML = ''; // Clear previous questions
+
+            const prompt = `Generate 5 concise and insightful questions a user should ask a founder with expertise in "${selectedFounder.expertise}" during a 30-minute consultation. Focus on actionable advice and strategic insights. Format the output as a numbered list.`;
+
+            let chatHistory = [];
+            chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+
+            const payload = { contents: chatHistory };
+            const apiKey = ""; // If you want to use models other than gemini-2.0-flash or imagen-3.0-generate-002, provide an API key here. Otherwise, leave this as-is.
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    const text = result.candidates[0].content.parts[0].text;
+                    const questions = text.split('\n').filter(q => q.trim() !== ''); // Split by newline and filter empty lines
+                    questions.forEach(q => {
+                        const li = document.createElement('li');
+                        li.textContent = q.replace(/^\d+\.\s*/, ''); // Remove numbering if present
+                        questionsList.appendChild(li);
+                    });
+                    suggestedQuestionsArea.classList.remove('hidden');
+                } else {
+                    questionsList.innerHTML = '<li>Could not generate questions. Please try again.</li>';
+                    suggestedQuestionsArea.classList.remove('hidden');
+                }
+            } catch (error) {
+                console.error('Error calling Gemini API:', error);
+                questionsList.innerHTML = '<li>Error suggesting questions. Please try again later.</li>';
+                suggestedQuestionsArea.classList.remove('hidden');
+            } finally {
+                suggestQuestionsBtn.disabled = false; // Re-enable button
+                suggestQuestionsSpinner.classList.add('hidden'); // Hide spinner
+            }
+        }
+
+        /**
+         * Calls the Gemini API to draft an introduction for the selected founder.
+         */
+        async function draftIntroduction() {
+            if (!selectedFounder) return;
+
+            draftIntroBtn.disabled = true; // Disable button during loading
+            draftIntroSpinner.classList.remove('hidden'); // Show spinner
+            draftedIntroArea.classList.add('hidden'); // Hide previous intro
+            introText.textContent = ''; // Clear previous intro
+
+            const prompt = `Draft a concise, professional, and engaging introduction for ${selectedFounder.name}, who is a ${selectedFounder.expertise} expert. Their bio is: "${selectedFounder.bio}". The introduction should be suitable for a networking event or a brief presentation.`;
+
+            let chatHistory = [];
+            chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+
+            const payload = { contents: chatHistory };
+            const apiKey = ""; // Leave as empty string; Canvas will provide at runtime.
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    const text = result.candidates[0].content.parts[0].text;
+                    introText.textContent = text;
+                    draftedIntroArea.classList.remove('hidden');
+                } else {
+                    introText.textContent = 'Could not draft an introduction. Please try again.';
+                    draftedIntroArea.classList.add('hidden');
+                }
+            } catch (error) {
+                console.error('Error calling Gemini API for introduction:', error);
+                introText.textContent = 'Error drafting introduction. Please try again later.';
+                draftedIntroArea.classList.remove('hidden');
+            } finally {
+                draftIntroBtn.disabled = false; // Re-enable button
+                draftIntroSpinner.classList.add('hidden'); // Hide spinner
+            }
+        }
+
+        /**
+         * Renders the client reviews into the reviews container.
+         */
+        function renderClientReviews() {
+            reviewsContainer.innerHTML = ''; // Clear existing reviews
+
+            clientReviews.forEach(review => {
+                const reviewCard = document.createElement('div');
+                reviewCard.classList.add(
+                    'bg-white', 'rounded-xl', 'shadow-lg', 'p-6', 'flex', 'flex-col',
+                    'items-center', 'text-center', 'review-card', 'dark:bg-gray-800'
+                );
+
+                // Create star rating HTML
+                let starsHtml = '<div class="star-rating mb-2">';
+                for (let i = 0; i < 5; i++) {
+                    if (i < review.rating) {
+                        starsHtml += `<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.538 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.783.57-1.838-.197-1.538-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.381-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>`;
+                    } else {
+                        starsHtml += `<svg class="w-5 h-5 empty" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.538 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.783.57-1.838-.197-1.538-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.381-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>`;
+                    }
+                }
+                starsHtml += '</div>';
+
+                reviewCard.innerHTML = `
+                    <img src="${review.photo}" alt="${review.name} Photo" class="w-20 h-20 rounded-full object-cover mb-4 shadow-md" onerror="this.onerror=null;this.src='https://placehold.co/120x120/cccccc/333333?text=N/A';">
+                    <h3 class="text-xl font-bold text-gray-900 mb-1">${review.name}</h3>
+                    ${starsHtml}
+                    <p class="text-sm text-blue-600 font-medium mb-2">Learned: ${review.learned}</p>
+                    <p class="text-gray-700 text-base leading-relaxed italic">"${review.testimonial}"</p>
+                `;
+                reviewsContainer.appendChild(reviewCard);
+            });
+
+            // Set up Intersection Observer for horizontal review cards
+            const reviewCards = document.querySelectorAll('.review-card');
+            const horizontalObserverOptions = {
+                root: reviewsContainer, // Observe relative to the scrolling container
+                rootMargin: '0px',
+                threshold: 0.5 // Trigger when 50% of the card is visible
+            };
+
+            const horizontalObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible-horizontal');
+                        observer.unobserve(entry.target); // Stop observing once visible
+                    }
+                });
+            }, horizontalObserverOptions);
+
+            reviewCards.forEach(card => {
+                horizontalObserver.observe(card);
+            });
+        }
+
+
+        // Add event listeners for booking buttons
+        videoCallBtn.addEventListener('click', () => handleBooking('video'));
+        chatSessionBtn.addEventListener('click', () => handleBooking('chat'));
+        faceToFaceBtn.addEventListener('click', () => handleBooking('faceToFace')); // Event listener for new button
+        suggestQuestionsBtn.addEventListener('click', suggestQuestions); // Existing AI feature
+        draftIntroBtn.addEventListener('click', draftIntroduction); // New AI feature
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Close modal when clicking outside of the content
+        window.addEventListener('click', (event) => {
+            if (event.target === profileModal) {
+                closeModal();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && profileModal.style.display === 'flex') {
+                closeModal();
+            }
+        });
+
+        // Intersection Observer for fade-in sections (vertical scroll)
+        const fadeInSections = document.querySelectorAll('.fade-in-section');
+        const observerOptions = {
+            root: null, // viewport
+            rootMargin: '0px',
+            threshold: 0.1 // Trigger when 10% of the section is visible
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target); // Stop observing once visible
+                }
+                // If element is no longer intersecting, remove is-visible class for potential re-animation on scroll up
+                else {
+                    entry.target.classList.remove('is-visible');
+                }
+            });
+        }, observerOptions);
+
+        fadeInSections.forEach(section => {
+            observer.observe(section);
+        });
+
+
+        // Filter button functionality
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const filter = button.dataset.filter;
+                profilesCurrentlyShown = 9; // Reset to initial count when a filter is applied
+                renderFounderProfiles(filter, searchInput.value);
+
+                // Update active button styling
+                filterButtons.forEach(btn => {
+                    btn.classList.remove('bg-blue-500', 'text-white', 'active-filter');
+                    btn.classList.add('bg-blue-100', 'text-blue-800', 'dark:bg-blue-700', 'dark:text-blue-100');
+                });
+                button.classList.add('bg-blue-500', 'text-white', 'active-filter');
+                button.classList.remove('bg-blue-100', 'text-blue-800', 'dark:bg-blue-700', 'dark:text-blue-100');
+            });
+        });
+
+        // Search input functionality
+        searchInput.addEventListener('input', () => {
+            const activeFilterButton = document.querySelector('.filter-button.active-filter');
+            const currentFilter = activeFilterButton ? activeFilterButton.dataset.filter : 'All';
+            profilesCurrentlyShown = 9; // Reset to initial count when search is performed
+            renderFounderProfiles(currentFilter, searchInput.value);
+        });
+
+        // Show More button functionality
+        showMoreBtn.addEventListener('click', () => {
+            profilesCurrentlyShown += profilesPerPage; // Increase count
+            const activeFilterButton = document.querySelector('.filter-button.active-filter');
+            const currentFilter = activeFilterButton ? activeFilterButton.dataset.filter : 'All';
+            renderFounderProfiles(currentFilter, searchInput.value); // Re-render with more profiles
+        });
+
+
+        // Initial render of profiles and reviews when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            // The welcome title is now static, no animation needed here.
+            // The main content will be shown by calling showMainContent() on button click
+            renderClientReviews(); // Ensure reviews are rendered on initial load
+        });
+
+        // Mobile menu toggle functionality
+        mobileMenuButton.addEventListener('click', () => {
+            mobileNavOverlay.classList.add('open');
+        });
+
+        closeMobileMenuButton.addEventListener('click', () => {
+            mobileNavOverlay.classList.remove('open');
+        });
+
+        // Close mobile menu when a navigation link is clicked
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileNavOverlay.classList.remove('open');
+            });
+        });
+
+        // Close mobile menu when clicking outside of the menu content
+        mobileNavOverlay.addEventListener('click', (event) => {
+            if (event.target === mobileNavOverlay) {
+                mobileNavOverlay.classList.remove('open');
+            }
+        });
+
+        // Newsletter subscription simulation
+        subscribeBtn.addEventListener('click', () => {
+            const email = newsletterEmailInput.value;
+            if (email && email.includes('@') && email.includes('.')) {
+                newsletterMessage.textContent = 'Thank you for subscribing! You\'ll receive our updates shortly.';
+                newsletterMessage.classList.remove('hidden', 'text-red-400');
+                newsletterMessage.classList.add('text-green-400');
+                newsletterEmailInput.value = ''; // Clear input
+            } else {
+                newsletterMessage.textContent = 'Please enter a valid email address.';
+                newsletterMessage.classList.remove('hidden', 'text-green-400');
+                newsletterMessage.classList.add('text-red-400');
+            }
+        });
+
+        // Back to Top button functionality
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) { // Show button after scrolling 300px
+                backToTopBtn.classList.add('show');
+            } else {
+                backToTopBtn.classList.remove('show');
+            }
+        });
+
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth' // Smooth scroll to top
+            });
+        });
+    </script>
+</body>
+</html>
